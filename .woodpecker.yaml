@@ -1,0 +1,44 @@
+steps:
+  - name: check
+    image: rust:1-bookworm
+    commands:
+      - make check
+
+  - name: build-release-binary
+    image: rust:1-bookworm
+    commands:
+      - make build
+      - mkdir -p dist
+      - |
+        set -e
+        tag="$CI_COMMIT_TAG"
+        version="$(printf '%s' "$tag" | sed 's/^cpuwatch-//; s/^v//')"
+        if [ -z "$tag" ]; then
+          version="0.1.0-dev"
+        fi
+        build="$CI_PIPELINE_NUMBER"
+        artifact="cpuwatch-${version}+build.${build}-linux-x86_64"
+        cp target/release/cpuwatch "dist/$artifact"
+        chmod 0755 "dist/$artifact"
+        sha256sum "dist/$artifact" > "dist/$artifact.sha256"
+        cat > dist/RELEASE_NOTES.md <<EOF
+        Automated Woodpecker release.
+
+        - Repository: $CI_REPO
+        - Commit: $CI_COMMIT_SHA
+        - Pipeline: $CI_PIPELINE_NUMBER
+        - Artifact: $artifact
+        EOF
+      - ls -lh dist
+
+  - name: publish-release
+    image: woodpeckerci/plugin-release
+    settings:
+      api_key:
+        from_secret: RELEASE_TOKEN
+      files:
+        - dist/*
+      file-exists: overwrite
+      note: dist/RELEASE_NOTES.md
+    when:
+      - event: tag

@@ -16,6 +16,7 @@ steps:
     image: rust:1-bookworm
     network_mode: woodpecker-ci_default
     commands:
+      - rustup component add rustfmt clippy
       - make check
 
   - name: build-release-binary

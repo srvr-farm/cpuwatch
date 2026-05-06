@@ -1,0 +1,16 @@
+[package]
+name = "cpuwatch"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "=4.5.32", features = ["derive"] }
+crossterm = "0.29"
+humantime = "2"
+ratatui = "0.29"
+serde_json = "1"
+
+[dev-dependencies]
+tempfile = "=3.23.0"

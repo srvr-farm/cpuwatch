@@ -4,6 +4,7 @@ when:
 clone:
   - name: git
     image: woodpeckerci/plugin-git:2.9.0
+    network_mode: woodpecker-ci_default
     settings:
       attempts: 10
       backoff: 10s
@@ -13,11 +14,13 @@ clone:
 steps:
   - name: check
     image: rust:1-bookworm
+    network_mode: woodpecker-ci_default
     commands:
       - make check
 
   - name: build-release-binary
     image: rust:1-bookworm
+    network_mode: woodpecker-ci_default
     commands:
       - make build
       - mkdir -p dist
@@ -45,6 +48,7 @@ steps:
 
   - name: publish-release
     image: woodpeckerci/plugin-release
+    network_mode: woodpecker-ci_default
     settings:
       api_key:
         from_secret: RELEASE_TOKEN

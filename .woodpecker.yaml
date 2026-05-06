@@ -1,3 +1,15 @@
+when:
+  - event: [push, pull_request, tag, manual]
+
+clone:
+  - name: git
+    image: woodpeckerci/plugin-git:2.9.0
+    settings:
+      attempts: 10
+      backoff: 10sec
+      lfs: false
+      recursive: false
+
 steps:
   - name: check
     image: rust:1-bookworm

@@ -1,10 +1,25 @@
-# cpuwatch
+# cpuwatch - Linux CPU Monitor for the Terminal
 
-`cpuwatch` is a read-only terminal monitor for Linux CPU clocks, physical-core
-utilization, package power, configured power limits, and temperatures.
+`cpuwatch` is a read-only Linux CPU monitor and terminal TUI for CPU clock
+speed, per-core utilization, RAPL package power, configured power limits, and
+temperatures. It is useful when you want a lightweight Rust alternative or
+companion to tools like `watch`, `sensors`, `htop`, `btop`, and `turbostat`.
 
 The default mode is an interactive terminal UI. A `--once` mode is also
 available for scripts, diagnostics, and non-interactive environments.
+
+## What You Can Monitor
+
+Use `cpuwatch` when you want to:
+
+- Monitor CPU frequency and clock speed on Linux from a terminal.
+- Watch per-physical-core CPU utilization instead of only per-thread CPU usage.
+- Inspect Intel RAPL or AMD RAPL package power draw in watts.
+- See Linux powercap limits, power level durations, and configured AMD
+  PPT/TDC/EDC values.
+- View CPU temperature readings from `lm-sensors` alongside clocks and power.
+- Debug laptop, desktop, workstation, homelab, and server CPU performance
+  without changing governors, power limits, or fan settings.
 
 ## Features
 
@@ -20,6 +35,14 @@ available for scripts, diagnostics, and non-interactive environments.
 - Collects CPU and GPU-like temperature readings from `sensors`.
 - Degrades to `N/A` values and diagnostics when optional data sources are
   missing or unreadable.
+
+## Keywords
+
+Linux CPU monitor, terminal CPU monitor, Rust TUI CPU monitor, CPU frequency
+monitor, CPU clock speed monitor, per-core CPU usage, physical core utilization,
+Linux RAPL monitor, Intel RAPL, AMD RAPL, Linux powercap, CPU power monitor,
+CPU temperature monitor, `lm-sensors`, `cpufreq`, `/proc/stat`, `/sys` hardware
+monitor.
 
 ## Quick Start
 
@@ -395,3 +418,22 @@ Options:
 - `src/snapshot.rs`: combined sampling state.
 - `src/render.rs`: TUI rendering and one-shot text reports.
 - `Makefile`: build, install, capability, and check targets.
+
+## Suggested GitHub Topics
+
+For the repository About sidebar, useful topics would be:
+
+```text
+linux
+rust
+tui
+terminal
+cpu-monitor
+hardware-monitor
+performance-monitoring
+rapl
+powercap
+lm-sensors
+cpufreq
+ratatui
+```

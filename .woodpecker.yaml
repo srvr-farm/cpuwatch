@@ -98,7 +98,8 @@ steps:
       api_key:
         from_secret: RELEASE_TOKEN
       files:
-        - dist/*
+        - dist/*-linux-x86_64
+        - dist/*-linux-x86_64.sha256
       file-exists: overwrite
       note: dist/RELEASE_NOTES.md
     when:

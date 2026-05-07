@@ -40,6 +40,16 @@ steps:
         cp target/release/cpuwatch "dist/$$artifact"
         chmod 0755 "dist/$$artifact"
         sha256sum "dist/$$artifact" > "dist/$$artifact.sha256"
+        deb="cpuwatch_$${version}_amd64.deb"
+        rpm="cpuwatch-$${version}-1.x86_64.rpm"
+        if [ -n "$$tag" ]; then
+          if ! command -v rpmbuild >/dev/null 2>&1; then
+            apt-get update
+            apt-get install -y --no-install-recommends rpm
+          fi
+          make package VERSION="$$version" PACKAGE_OUTPUT_DIR=dist
+          make check-packages VERSION="$$version" PACKAGE_OUTPUT_DIR=dist
+        fi
         cat > dist/RELEASE_NOTES.md <<EOF
         Automated Woodpecker release.
 
@@ -47,7 +57,9 @@ steps:
         - Version: $${release_ref}
         - Commit: $${CI_COMMIT_SHA}
         - Pipeline: $${CI_PIPELINE_NUMBER}
-        - Artifact: $${artifact}
+        - Binary: $${artifact}
+        - Debian package: $${deb}
+        - RPM package: $${rpm}
         EOF
       - ls -lh dist
 
@@ -100,6 +112,10 @@ steps:
       files:
         - dist/*-linux-x86_64
         - dist/*-linux-x86_64.sha256
+        - dist/*.deb
+        - dist/*.deb.sha256
+        - dist/*.rpm
+        - dist/*.rpm.sha256
       file-exists: overwrite
       note: dist/RELEASE_NOTES.md
     when:
